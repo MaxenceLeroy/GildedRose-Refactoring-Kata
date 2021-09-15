@@ -52,6 +52,27 @@ class GildedRoseTests: XCTestCase {
         XCTAssertEqual(app.items[0].quality, 0)
     }
 
+    func testBrieIncreaseQuality() {
+        let items = [Item(name: "Aged Brie", sellIn: 11, quality: 10)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 11)
+    }
+
+    func testBrieIncreaseDoubleQualityAfterSellIn() {
+        let items = [Item(name: "Aged Brie", sellIn: 0, quality: 10)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 12)
+    }
+    
+    func testBrieQualityLimit() {
+        let items = [Item(name: "Aged Brie", sellIn: 10, quality: 50)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 50)
+    }
+
     static var allTests = [
         ("testFoo", testFoo),
         ("testDecreaseSellIn", testDecreaseSellIn),
@@ -60,5 +81,8 @@ class GildedRoseTests: XCTestCase {
         ("testQualityDecreaseByOneForNormalItemEveryDay", testQualityDecreaseByOneForNormalItemEveryDay),
         ("testQualityDecreaseByTwoOnceSellInIsExperied", testQualityDecreaseByTwoOnceSellInIsExperied),
         ("testQualityCanNotBeNegative", testQualityCanNotBeNegative),
+        ("testBrieIncreaseQuality", testBrieIncreaseQuality),
+        ("testBrieIncreaseDoubleQualityAfterSellIn", testBrieIncreaseDoubleQualityAfterSellIn),
+        ("testBrieQualityLimit", testBrieQualityLimit),
     ]
 }
