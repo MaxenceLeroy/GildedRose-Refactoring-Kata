@@ -73,6 +73,48 @@ class GildedRoseTests: XCTestCase {
         XCTAssertEqual(app.items[0].quality, 50)
     }
 
+    func testBackstageIncreaseQuality() {
+        let items = [Item(name: "Backstage passes to a TAFKAL80ETC concert", sellIn: 11, quality: 10)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 11)
+    }
+    
+    func testBackstageIncreaseQualityLessThanTenDays() {
+        let items = [Item(name: "Backstage passes to a TAFKAL80ETC concert", sellIn: 10, quality: 10)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 12)
+    }
+    
+    func testBackstageIncreaseQualityLessThanFiveDays() {
+        let items = [Item(name: "Backstage passes to a TAFKAL80ETC concert", sellIn: 5, quality: 10)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 13)
+    }
+    
+    func testBackstageDecreaseQualityLessAfterSellIn() {
+        let items = [Item(name: "Backstage passes to a TAFKAL80ETC concert", sellIn: 0, quality: 10)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 0)
+    }
+    
+    func testBackstageQualityDoesntGoNegative() {
+        let items = [Item(name: "Backstage passes to a TAFKAL80ETC concert", sellIn: -1, quality: 0)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 0)
+    }
+    
+    func testBackstageQualityLimit() {
+        let items = [Item(name: "Backstage passes to a TAFKAL80ETC concert", sellIn: 10, quality: 50)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 50)
+    }
+
     static var allTests = [
         ("testFoo", testFoo),
         ("testDecreaseSellIn", testDecreaseSellIn),
@@ -84,5 +126,11 @@ class GildedRoseTests: XCTestCase {
         ("testBrieIncreaseQuality", testBrieIncreaseQuality),
         ("testBrieIncreaseDoubleQualityAfterSellIn", testBrieIncreaseDoubleQualityAfterSellIn),
         ("testBrieQualityLimit", testBrieQualityLimit),
+        ("testBackstageIncreaseQuality", testBackstageIncreaseQuality),
+        ("testBackstageIncreaseQualityLessThanTenDays", testBackstageIncreaseQualityLessThanTenDays),
+        ("testBackstageIncreaseQualityLessThanFiveDays", testBackstageIncreaseQualityLessThanFiveDays),
+        ("testBackstageDecreaseQualityLessAfterSellIn", testBackstageDecreaseQualityLessAfterSellIn),
+        ("testBackstageQualityDoesntGoNegative", testBackstageQualityDoesntGoNegative),
+        ("testBackstageQualityLimit", testBackstageQualityLimit)
     ]
 }
