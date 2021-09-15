@@ -121,6 +121,16 @@ class GildedRoseTests: XCTestCase {
         app.updateQuality()
         XCTAssertEqual(app.items[0].quality, 80)
     }
+    
+    func testUpdateWithTwoItems() {
+        let items = [Item(name: "foo", sellIn: 2, quality: 10), Item(name: "bar", sellIn: 20, quality: 20)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].sellIn, 1)
+        XCTAssertEqual(app.items[0].quality, 9)
+        XCTAssertEqual(app.items[1].sellIn, 19)
+        XCTAssertEqual(app.items[1].quality, 19)
+    }
 
     static var allTests = [
         ("testFoo", testFoo),
@@ -140,5 +150,6 @@ class GildedRoseTests: XCTestCase {
         ("testBackstageQualityDoesntGoNegative", testBackstageQualityDoesntGoNegative),
         ("testBackstageQualityLimit", testBackstageQualityLimit),
         ("testQualityLegendaryItemDoesntChange", testQualityLegendaryItemDoesntChange),
+        ("testUpdateWithTwoItems", testUpdateWithTwoItems)
     ]
 }
