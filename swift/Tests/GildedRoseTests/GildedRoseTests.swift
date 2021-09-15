@@ -114,6 +114,13 @@ class GildedRoseTests: XCTestCase {
         app.updateQuality()
         XCTAssertEqual(app.items[0].quality, 50)
     }
+    
+    func testQualityLegendaryItemDoesntChange() {
+        let items = [Item(name: "Sulfuras, Hand of Ragnaros", sellIn: 2, quality: 80)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 80)
+    }
 
     static var allTests = [
         ("testFoo", testFoo),
@@ -131,6 +138,7 @@ class GildedRoseTests: XCTestCase {
         ("testBackstageIncreaseQualityLessThanFiveDays", testBackstageIncreaseQualityLessThanFiveDays),
         ("testBackstageDecreaseQualityLessAfterSellIn", testBackstageDecreaseQualityLessAfterSellIn),
         ("testBackstageQualityDoesntGoNegative", testBackstageQualityDoesntGoNegative),
-        ("testBackstageQualityLimit", testBackstageQualityLimit)
+        ("testBackstageQualityLimit", testBackstageQualityLimit),
+        ("testQualityLegendaryItemDoesntChange", testQualityLegendaryItemDoesntChange),
     ]
 }
