@@ -30,11 +30,35 @@ class GildedRoseTests: XCTestCase {
         app.updateQuality()
         XCTAssertEqual(app.items[0].sellIn, -1)
     }
+    
+    func testQualityDecreaseByOneForNormalItemEveryDay() {
+        let items = [Item(name: "foo", sellIn: 2, quality: 20)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 19)
+    }
+    
+    func testQualityDecreaseByTwoOnceSellInIsExperied() {
+        let items = [Item(name: "foo", sellIn: 0, quality: 20)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 18)
+    }
+    
+    func testQualityCanNotBeNegative() {
+        let items = [Item(name: "foo", sellIn: 2, quality: 0)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 0)
+    }
 
     static var allTests = [
         ("testFoo", testFoo),
         ("testDecreaseSellIn", testDecreaseSellIn),
         ("testNotDecreaseSellInLegedaryItem", testNotDecreaseSellInLegedaryItem),
-        ("testSellInCanGoNegative", testSellInCanGoNegative)
+        ("testSellInCanGoNegative", testSellInCanGoNegative),
+        ("testQualityDecreaseByOneForNormalItemEveryDay", testQualityDecreaseByOneForNormalItemEveryDay),
+        ("testQualityDecreaseByTwoOnceSellInIsExperied", testQualityDecreaseByTwoOnceSellInIsExperied),
+        ("testQualityCanNotBeNegative", testQualityCanNotBeNegative),
     ]
 }
