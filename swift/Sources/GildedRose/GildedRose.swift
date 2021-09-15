@@ -10,9 +10,9 @@ public class GildedRose {
     
     public func updateQuality() {
         for i in 0 ..< items.count {
-            if (items[i].name != "Aged Brie" && items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
+            if (items[i].itemType() != .cheese && items[i].itemType() != .backstagePass) {
                 if (items[i].quality > minimumQuality) {
-                    if (items[i].name != "Sulfuras, Hand of Ragnaros") {
+                    if (items[i].itemType() != .legendary) {
                         items[i].quality = items[i].quality - 1
                     }
                 }
@@ -20,7 +20,7 @@ public class GildedRose {
                 if (items[i].quality < maximumQuality) {
                     items[i].quality = items[i].quality + 1
                     
-                    if (items[i].name == "Backstage passes to a TAFKAL80ETC concert") {
+                    if (items[i].itemType() == .backstagePass) {
                         if (items[i].sellIn < 11) {
                             if (items[i].quality < maximumQuality) {
                                 items[i].quality = items[i].quality + 1
@@ -36,15 +36,15 @@ public class GildedRose {
                 }
             }
             
-            if (items[i].name != "Sulfuras, Hand of Ragnaros") {
+            if (items[i].itemType() != .legendary) {
                 items[i].sellIn = items[i].sellIn - 1
             }
             
             if (items[i].sellIn < 0) {
-                if (items[i].name != "Aged Brie") {
-                    if (items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
+                if (items[i].itemType() != .cheese) {
+                    if (items[i].itemType() != .backstagePass) {
                         if (items[i].quality > minimumQuality) {
-                            if (items[i].name != "Sulfuras, Hand of Ragnaros") {
+                            if (items[i].itemType() != .legendary) {
                                 items[i].quality = items[i].quality - 1
                             }
                         }
@@ -57,6 +57,24 @@ public class GildedRose {
                     }
                 }
             }
+        }
+    }
+}
+
+enum ItemType {
+    case normal, cheese, backstagePass, legendary
+}
+
+extension Item {
+    func itemType() -> ItemType {
+        if name == "Aged Brie" {
+            return .cheese
+        } else if name == "Backstage passes to a TAFKAL80ETC concert" {
+            return .backstagePass
+        } else if name == "Sulfuras, Hand of Ragnaros" {
+            return .legendary
+        } else {
+            return .normal
         }
     }
 }
