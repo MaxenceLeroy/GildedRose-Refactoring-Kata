@@ -1,3 +1,5 @@
+import Foundation
+
 public class GildedRose {
     var items: [Item]
     
@@ -28,6 +30,8 @@ public class GildedRose {
             increaseItemQuality(item: item, amount: 1)
         case .cheese:
             increaseItemQuality(item: item, amount: 1)
+        case .conjured:
+            decreaseItemQuality(item: item, amount: 2)
         default:
             decreaseItemQuality(item: item, amount: 1)
         }
@@ -47,6 +51,8 @@ public class GildedRose {
             increaseItemQuality(item: item, amount: 1)
         case .backstagePass:
             decreaseItemQuality(item: item, amount: item.quality)
+        case .conjured:
+            decreaseItemQuality(item: item, amount: 2)
         default:
             decreaseItemQuality(item: item, amount: 1)
         }
@@ -65,7 +71,7 @@ public class GildedRose {
 }
 
 enum ItemType {
-    case normal, cheese, backstagePass, legendary
+    case normal, cheese, backstagePass, legendary, conjured
 }
 
 extension Item {
@@ -76,6 +82,8 @@ extension Item {
             return .backstagePass
         } else if name == "Sulfuras, Hand of Ragnaros" {
             return .legendary
+        } else if name.lowercased().contains("conjured") {
+            return .conjured
         } else {
             return .normal
         }
