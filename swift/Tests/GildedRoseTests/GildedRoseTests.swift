@@ -131,6 +131,34 @@ class GildedRoseTests: XCTestCase {
         XCTAssertEqual(app.items[1].sellIn, 19)
         XCTAssertEqual(app.items[1].quality, 19)
     }
+    
+    func testDecreaseSellInConjured() {
+        let items = [Item(name: "Conjured potato", sellIn: 2, quality: 10)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].sellIn, 1)
+    }
+    
+    func testDecreaseQualityConjured() {
+        let items = [Item(name: "Conjured potato", sellIn: 2, quality: 10)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 8)
+    }
+    
+    func testDecreaseQualityExpiredConjured() {
+        let items = [Item(name: "Conjured potato", sellIn: 0, quality: 10)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 6)
+    }
+    
+    func testConjuredQualityCanNotBeNegative() {
+        let items = [Item(name: "Conjured potato", sellIn: 0, quality: 2)]
+        let app = GildedRose(items: items)
+        app.updateQuality()
+        XCTAssertEqual(app.items[0].quality, 0)
+    }
 
     static var allTests = [
         ("testFoo", testFoo),
@@ -150,6 +178,10 @@ class GildedRoseTests: XCTestCase {
         ("testBackstageQualityDoesntGoNegative", testBackstageQualityDoesntGoNegative),
         ("testBackstageQualityLimit", testBackstageQualityLimit),
         ("testQualityLegendaryItemDoesntChange", testQualityLegendaryItemDoesntChange),
-        ("testUpdateWithTwoItems", testUpdateWithTwoItems)
+        ("testUpdateWithTwoItems", testUpdateWithTwoItems),
+        ("testDecreaseSellInConjured", testDecreaseSellInConjured),
+        ("testDecreaseQualityConjured", testDecreaseQualityConjured),
+        ("testDecreaseQualityExpiredConjured", testDecreaseQualityExpiredConjured),
+        ("testConjuredQualityCanNotBeNegative", testConjuredQualityCanNotBeNegative),
     ]
 }
