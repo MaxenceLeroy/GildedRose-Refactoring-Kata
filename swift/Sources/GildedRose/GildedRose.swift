@@ -40,16 +40,15 @@ public class GildedRose {
     }
     
     private func updateExpiredItemQuality(item: Item) {
-        if (item.itemType() != .cheese) {
-            if (item.itemType() != .backstagePass) {
-                if (item.itemType() != .legendary) {
-                    decreaseItemQuality(item: item, amount: 1)
-                }
-            } else {
-                decreaseItemQuality(item: item, amount: item.quality)
-            }
-        } else {
+        switch item.itemType() {
+        case .legendary:
+            ()
+        case .cheese:
             increaseItemQuality(item: item, amount: 1)
+        case .backstagePass:
+            decreaseItemQuality(item: item, amount: item.quality)
+        default:
+            decreaseItemQuality(item: item, amount: 1)
         }
     }
     
