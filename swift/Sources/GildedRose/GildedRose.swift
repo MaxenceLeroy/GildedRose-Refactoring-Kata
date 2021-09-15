@@ -17,22 +17,19 @@ public class GildedRose {
     }
     
     private func updateItemQuality(item: Item) {
-        if (item.itemType() != .cheese && item.itemType() != .backstagePass) {
-            if (item.itemType() != .legendary) {
-                decreaseItemQuality(item: item, amount: 1)
-            }
-        } else {
+        switch item.itemType() {
+        case .legendary:
+            ()
+        case .backstagePass where item.sellIn < 6:
+            increaseItemQuality(item: item, amount: 3)
+        case .backstagePass where item.sellIn < 11:
+            increaseItemQuality(item: item, amount: 2)
+        case .backstagePass where item.sellIn >= 11:
             increaseItemQuality(item: item, amount: 1)
-            
-            if (item.itemType() == .backstagePass) {
-                if (item.sellIn < 11) {
-                    increaseItemQuality(item: item, amount: 1)
-                }
-                
-                if (item.sellIn < 6) {
-                    increaseItemQuality(item: item, amount: 1)
-                }
-            }
+        case .cheese:
+            increaseItemQuality(item: item, amount: 1)
+        default:
+            decreaseItemQuality(item: item, amount: 1)
         }
     }
     
