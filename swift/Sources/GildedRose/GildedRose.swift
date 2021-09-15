@@ -8,30 +8,30 @@ public class GildedRose {
     private let minimumQuality = 0
     private let maximumQuality = 50
     
+    private func increaseItemQuality(item: Item, amount: Int) {
+        item.quality = min(item.quality + amount, maximumQuality)
+    }
+    
+    private func decreaseItemQuality(item: Item, amount: Int) {
+        item.quality = max(item.quality - amount, minimumQuality)
+    }
+    
     public func updateQuality() {
         for item in items {
             if (item.itemType() != .cheese && item.itemType() != .backstagePass) {
-                if (item.quality > minimumQuality) {
-                    if (item.itemType() != .legendary) {
-                        item.quality = item.quality - 1
-                    }
+                if (item.itemType() != .legendary) {
+                    decreaseItemQuality(item: item, amount: 1)
                 }
             } else {
-                if (item.quality < maximumQuality) {
-                    item.quality = item.quality + 1
+                increaseItemQuality(item: item, amount: 1)
+                
+                if (item.itemType() == .backstagePass) {
+                    if (item.sellIn < 11) {
+                        increaseItemQuality(item: item, amount: 1)
+                    }
                     
-                    if (item.itemType() == .backstagePass) {
-                        if (item.sellIn < 11) {
-                            if (item.quality < maximumQuality) {
-                                item.quality = item.quality + 1
-                            }
-                        }
-                        
-                        if (item.sellIn < 6) {
-                            if (item.quality < maximumQuality) {
-                                item.quality = item.quality + 1
-                            }
-                        }
+                    if (item.sellIn < 6) {
+                        increaseItemQuality(item: item, amount: 1)
                     }
                 }
             }
@@ -43,18 +43,14 @@ public class GildedRose {
             if (item.sellIn < 0) {
                 if (item.itemType() != .cheese) {
                     if (item.itemType() != .backstagePass) {
-                        if (item.quality > minimumQuality) {
-                            if (item.itemType() != .legendary) {
-                                item.quality = item.quality - 1
-                            }
+                        if (item.itemType() != .legendary) {
+                            decreaseItemQuality(item: item, amount: 1)
                         }
                     } else {
-                        item.quality = item.quality - item.quality
+                        decreaseItemQuality(item: item, amount: item.quality)
                     }
                 } else {
-                    if (item.quality < maximumQuality) {
-                        item.quality = item.quality + 1
-                    }
+                    increaseItemQuality(item: item, amount: 1)
                 }
             }
         }
